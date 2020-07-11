@@ -18,6 +18,7 @@
 
 #include "cartographer/io/image.h"
 #include "cartographer/transform/transform.h"
+#include <iostream>
 
 namespace cartographer {
 namespace io {
@@ -29,9 +30,12 @@ void DrawTrajectory(const mapping::proto::Trajectory& trajectory,
   if (trajectory.node_size() == 0) {
     return;
   }
-  constexpr double kTrajectoryWidth = 4.;
+  constexpr double kTrajectoryWidth = 2.;
   constexpr double kTrajectoryEndMarkers = 6.;
   constexpr double kAlpha = 0.7;
+  constexpr double kTenSecondMarker = 3.;
+  
+  std::cout<<"trajectory.node_size is: "<<trajectory.node_size()<<std::endl;
 
   auto cr = ::cartographer::io::MakeUniqueCairoPtr(cairo_create(surface));
 
@@ -62,6 +66,15 @@ void DrawTrajectory(const mapping::proto::Trajectory& trajectory,
               2 * M_PI);
     cairo_fill(cr.get());
   }
+  for (int i =76; i <trajectory.node_size(); i +=76) {
+   const Eigen::Array2i pixel =
+        pose_to_pixel(transform::ToRigid3(trajectory.node(i).pose()));
+    cairo_set_source_rgba(cr.get(), 1., .5, 0., kAlpha);
+    cairo_arc(cr.get(), pixel.x(), pixel.y(), kTenSecondMarker, 0,
+              2 * M_PI);
+    cairo_fill(cr.get());
+  }
+  
   cairo_surface_flush(surface);
 }
 
