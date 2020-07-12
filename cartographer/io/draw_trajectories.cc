@@ -30,12 +30,13 @@ void DrawTrajectory(const mapping::proto::Trajectory& trajectory,
   if (trajectory.node_size() == 0) {
     return;
   }
-  constexpr double kTrajectoryWidth = 2.;
+  constexpr double kTrajectoryWidth = 2;
   constexpr double kTrajectoryEndMarkers = 6.;
   constexpr double kAlpha = 0.7;
-  constexpr double kTenSecondMarker = 3.;
-  
+  constexpr double kTenSecondMarker = 4.;
+
   std::cout<<"trajectory.node_size is: "<<trajectory.node_size()<<std::endl;
+  //std::cout<<"trajectory.node_info is: "<<trajectory.node.pose(10)<<std::endl;
 
   auto cr = ::cartographer::io::MakeUniqueCairoPtr(cairo_create(surface));
 
@@ -66,6 +67,7 @@ void DrawTrajectory(const mapping::proto::Trajectory& trajectory,
               2 * M_PI);
     cairo_fill(cr.get());
   }
+
   for (int i =76; i <trajectory.node_size(); i +=76) {
    const Eigen::Array2i pixel =
         pose_to_pixel(transform::ToRigid3(trajectory.node(i).pose()));
@@ -74,7 +76,6 @@ void DrawTrajectory(const mapping::proto::Trajectory& trajectory,
               2 * M_PI);
     cairo_fill(cr.get());
   }
-  
   cairo_surface_flush(surface);
 }
 
