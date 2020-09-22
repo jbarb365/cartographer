@@ -30,10 +30,10 @@ void DrawTrajectory(const mapping::proto::Trajectory& trajectory,
   if (trajectory.node_size() == 0) {
     return;
   }
-  constexpr double kTrajectoryWidth = 2;
-  constexpr double kTrajectoryEndMarkers = 6.;
+  constexpr double kTrajectoryWidth = 0;
+  constexpr double kTrajectoryEndMarkers = 0.;
   constexpr double kAlpha = 0.7;
-  constexpr double kTenSecondMarker = 4.;
+  constexpr double kTenSecondMarker = 0.;
 
   std::cout<<"trajectory.node_size is: "<<trajectory.node_size()<<std::endl;
   //std::cout<<"trajectory.node_info is: "<<trajectory.node.pose(10)<<std::endl;
